@@ -1,16 +1,16 @@
 /*!
  * Copyright (c) 2022 Digital Bazaar, Inc. All rights reserved.
  */
-import {StatusList} from '../lib/StatusList.js';
+import {BitstringStatusList} from '../lib/BitstringStatusList.js';
 
 const encodedList100k =
   'H4sIAAAAAAAAA-3BMQEAAADCoPVPbQsvoAAAAAAAAAAAAAAAAP4GcwM92tQwAAA';
 const encodedList100KWith50KthRevoked =
   'H4sIAAAAAAAAA-3OMQ0AAAgDsElHOh72EJJWQRMAAAAAAIDWXAcAAAAAAIDHFvRitn7UMAAA';
 
-describe('StatusList', () => {
+describe('BitstringStatusList', () => {
   it('should create an instance', async () => {
-    const list = new StatusList({length: 8});
+    const list = new BitstringStatusList({length: 8});
     list.length.should.equal(8);
   });
 
@@ -18,7 +18,7 @@ describe('StatusList', () => {
     async () => {
       let err;
       try {
-        new StatusList();
+        new BitstringStatusList();
       } catch(e) {
         err = e;
       }
@@ -27,7 +27,7 @@ describe('StatusList', () => {
     });
 
   it('should encode', async () => {
-    const list = new StatusList({length: 100000});
+    const list = new BitstringStatusList({length: 100000});
     let encodedList;
     let err;
     try {
@@ -44,7 +44,7 @@ describe('StatusList', () => {
     let err;
     let list;
     try {
-      list = await StatusList.decode({encodedList: encodedList100k});
+      list = await BitstringStatusList.decode({encodedList: encodedList100k});
     } catch(e) {
       err = e;
     }
@@ -54,7 +54,7 @@ describe('StatusList', () => {
   });
 
   it('should mark a credential revoked', async () => {
-    const list = new StatusList({length: 8});
+    const list = new BitstringStatusList({length: 8});
     list.getStatus(0).should.equal(false);
     list.getStatus(1).should.equal(false);
     list.getStatus(2).should.equal(false);
@@ -76,7 +76,7 @@ describe('StatusList', () => {
 
   it('should fail to mark a credential revoked if no "status" boolean ' +
     'param is passed', async () => {
-    const list = new StatusList({length: 8});
+    const list = new BitstringStatusList({length: 8});
     let err;
     try {
       list.setStatus(0);
@@ -90,7 +90,7 @@ describe('StatusList', () => {
 
   it('should fail to get a credential status for position that is out of range',
     async () => {
-      const list = new StatusList({length: 8});
+      const list = new BitstringStatusList({length: 8});
       let err;
       try {
         list.getStatus(8);
@@ -103,13 +103,13 @@ describe('StatusList', () => {
     });
 
   it('should mark a credential revoked, encode and decode', async () => {
-    const list = new StatusList({length: 100000});
+    const list = new BitstringStatusList({length: 100000});
     list.getStatus(50000).should.equal(false);
     list.setStatus(50000, true);
     list.getStatus(50000).should.equal(true);
     const encodedList = await list.encode();
     encodedList.should.equal(encodedList100KWith50KthRevoked);
-    const decodedList = await StatusList.decode({encodedList});
+    const decodedList = await BitstringStatusList.decode({encodedList});
     decodedList.getStatus(50000).should.equal(true);
   });
 });

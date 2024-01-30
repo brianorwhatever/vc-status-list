@@ -1,11 +1,11 @@
 # @digitalbazaar/vc-status-list
 
-[Verifiable Credential Status List 2021](https://github.com/w3c/vc-status-list-2021/)
+[Verifiable Credential Bitstring Status List](https://github.com/w3c/vc-bitstring-status-list/)
 
-### Creating a StatusList2021Credential
+### Creating a BitstringStatusListCredential
 
 ```js
-const sl = require("@digitalbazaar/vc-status-list");
+const sl = require("@digitalbazaar/vc-bitstring-status-list");
 const jsigs = require("jsonld-signatures");
 const {Ed25519KeyPair} = require("crypto-ld");
 const vc = require("vc-js");
@@ -30,10 +30,10 @@ const slCredential = {
   id,
   issuer: "did:key:z6MknUVLM84Eo5mQswCqP7f6oNER84rmVKkCvypob8UtBC8K",
   issuanceDate: "2021-03-10T04:24:12.164Z",
-  type: ["VerifiableCredential", "StatusList2021Credential"],
+  type: ["VerifiableCredential", "BitstringStatusListCredential"],
   credentialSubject: {
     id: `${id}#list`,
-    type: "StatusList2021",
+    type: "BitstringStatusList",
     encodedList,
   },
 };
@@ -44,7 +44,7 @@ let verifiableCredential = await vc.issue({
 });
 ```
 
-### Created a Credential which uses a StatusList2021
+### Created a Credential which uses a BitstringStatusList
 
 ```js
 // see imports above
@@ -60,7 +60,7 @@ const credential = {
   issuanceDate: "2021-03-10T04:24:12.164Z",
   credentialStatus: {
     id: "https://example.com/credentials/status/3#94567",
-    type: "StatusList2021Entry",
+    type: "BitstringStatusListEntry",
     statusListIndex: "94567",
     statusListCredential:
       "https://did.actor/alice/credentials/status/3",
